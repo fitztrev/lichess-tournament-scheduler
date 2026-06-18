@@ -23,4 +23,4 @@ COPY --from=frontend /app/svelte/public/ ./svelte/public/
 RUN useradd --no-create-home appuser
 USER appuser
 
-CMD ["uwsgi", "--socket", "0.0.0.0:9091", "--wsgi-file", "app.py", "--callable", "app", "--enable-threads", "--master"]
+CMD ["uwsgi", "--http", "0.0.0.0:9091", "--wsgi-file", "app.py", "--callable", "app", "--enable-threads", "--master"]
