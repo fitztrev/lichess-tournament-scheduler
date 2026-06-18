@@ -12,11 +12,11 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=frontend
-      - traefik.http.routers.hermes.rule=Host(`tournament-scheduler.lichess.app`)
-      - traefik.http.routers.hermes.entrypoints=websecure
-      - traefik.http.routers.hermes.tls=true
-      - traefik.http.routers.hermes.tls.certresolver=myresolver
-      - traefik.http.services.hermes.loadbalancer.server.port=9091
+      - traefik.http.routers.tournament-scheduler.rule=Host(`tournament-scheduler.lichess.app`)
+      - traefik.http.routers.tournament-scheduler.entrypoints=websecure
+      - traefik.http.routers.tournament-scheduler.tls=true
+      - traefik.http.routers.tournament-scheduler.tls.certresolver=myresolver
+      - traefik.http.services.tournament-scheduler.loadbalancer.server.port=9091
 
 networks:
   frontend:
