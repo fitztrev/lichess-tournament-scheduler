@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import os
 import sqlite3
 from time import time
 from typing import IO, Any, Dict, List, Optional, Set, Tuple, cast
@@ -9,7 +10,7 @@ from flask import Flask
 
 from model import CreatedArena, MsgToSend, Schedule, ScheduleWithId
 
-DATABASE = "database.sqlite"
+DATABASE = os.environ.get("DATABASE_PATH", "database.sqlite")
 VERSION = 13
 
 

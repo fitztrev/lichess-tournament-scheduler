@@ -1,0 +1,23 @@
+services:
+  app:
+    image: ghcr.io/fitztrev/lichess-tournament-scheduler:docker
+    environment:
+      - DATABASE_PATH=/app/db/database.sqlite
+    restart: unless-stopped
+    volumes:
+      - /data/lichess-tournament-scheduler/config.py:/app/config.py:ro
+      - /data/lichess-tournament-scheduler/db:/app/db
+    networks:
+      - frontend
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=frontend
+      - traefik.http.routers.hermes.rule=Host(`tournament-scheduler.lichess.app`)
+      - traefik.http.routers.hermes.entrypoints=websecure
+      - traefik.http.routers.hermes.tls=true
+      - traefik.http.routers.hermes.tls.certresolver=myresolver
+      - traefik.http.services.hermes.loadbalancer.server.port=9091
+
+networks:
+  frontend:
+    external: true
