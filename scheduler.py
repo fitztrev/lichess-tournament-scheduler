@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from threading import Thread
 from time import sleep, time
 from typing import Any, Dict, List, Optional, Tuple, cast
@@ -44,7 +44,7 @@ class SchedulerThread(Thread):
 
             for nxt, s in to_schedule:
                 logger.info(
-                    f"Trying to create {s.name} for {s.team} at {nxt} ({datetime.utcfromtimestamp(nxt):%Y-%m-%d %H:%M:%S})"
+                    f"Trying to create {s.name} for {s.team} at {nxt} ({datetime.fromtimestamp(nxt, tz=timezone.utc):%Y-%m-%d %H:%M:%S})"
                 )
                 if "{nth" in s.name or (s.description and "{nth" in s.description):
                     nth = db.num_created_before(s.id, nxt) + 1
@@ -101,16 +101,16 @@ class SchedulerThread(Thread):
             msgs = db.get_and_remove_scheduled_msgs()
 
         now_timestamp = time()
-        now = datetime.utcfromtimestamp(int(now_timestamp))
+        now = datetime.fromtimestamp(int(now_timestamp), tz=timezone.utc)
 
         for msg in msgs:
             logger.info(
-                f"Sending team PM for {msg.arenaId} at {now:%Y-%m-%d %H:%M:%S} (scheduled {datetime.utcfromtimestamp(msg.sendTime):%Y-%m-%d %H:%M:%S})"
+                f"Sending team PM for {msg.arenaId} at {now:%Y-%m-%d %H:%M:%S} (scheduled {datetime.fromtimestamp(msg.sendTime, tz=timezone.utc):%Y-%m-%d %H:%M:%S})"
             )
 
             if msg.team in self.msgs_rate_limited_until:
                 if self.msgs_rate_limited_until[msg.team] > now_timestamp:
-                    logger.warn(f"Skipping team PM due to active rate-limiting")
+                    logger.warning(f"Skipping team PM due to active rate-limiting")
                     continue
                 del self.msgs_rate_limited_until[msg.team]
 
@@ -118,12 +118,12 @@ class SchedulerThread(Thread):
                 token = db.token_for_team(msg.team)
 
             if not token:
-                logger.warn(f"No valid token found")
+                logger.warning(f"No valid token found")
                 continue
 
             vToken = api.verify_token(token)
             if not vToken or not vToken.is_valid_msg_token_for_team(msg.team):
-                logger.warn("Bad token")
+                logger.warning("Bad token")
                 with Db() as db:
                     db.mark_bad_token(msg.team, token)
                 continue

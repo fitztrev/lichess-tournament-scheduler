@@ -1,0 +1,11 @@
+__pycache__
+.devenv
+.direnv
+.github
+api-test-server
+
+config.py
+database.sqlite
+
+svelte/node_modules
+svelte/public/build

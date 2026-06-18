@@ -5,7 +5,7 @@ import re
 import sqlite3
 from calendar import monthrange
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from time import time
 from typing import Any, Dict, List, Optional, Protocol, Type, TypeVar
 
@@ -61,7 +61,7 @@ class Schedule:
 
     def team_battle_teams(self, at: int) -> List[str]:
         if self.teamBattleAlternativeTeamsEnabled:
-            date = datetime.utcfromtimestamp(at)
+            date = datetime.fromtimestamp(at, tz=timezone.utc)
             daysInMonth = calendar.monthrange(date.year, date.month)[1]
             if date.day > daysInMonth - 7:
                 return extract_team_battle_teams(self.teamBattleAlternativeTeams)
@@ -161,7 +161,7 @@ class Schedule:
         )
 
     def next_times(self) -> List[int]:
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         new = now.replace(
             hour=self.scheduleHour,
             minute=self.scheduleMinute,
@@ -178,7 +178,7 @@ class Schedule:
         elif self.scheduleDay < 10_000:
             if not self.scheduleStart:
                 return []
-            new = datetime.utcfromtimestamp(self.scheduleStart).replace(
+            new = datetime.fromtimestamp(self.scheduleStart, tz=timezone.utc).replace(
                 hour=self.scheduleHour,
                 minute=self.scheduleMinute,
                 second=0,

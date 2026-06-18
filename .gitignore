@@ -4,5 +4,15 @@ config.py
 *.sqlite
 node_modules
 svelte/public/build
-svelte/src/config.ts
 svelte/package-lock.json
+
+# Devenv
+.devenv*
+devenv.local.nix
+devenv.local.yaml
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml

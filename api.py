@@ -3,7 +3,7 @@ from __future__ import annotations
 import calendar
 import re
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from time import time
 from typing import List, Optional, Tuple, cast
 
@@ -268,7 +268,7 @@ def replace_week_of_month(s: str, date: datetime) -> str:
 
 
 def format_name(name: str, at: int, nth: int) -> str:
-    date = datetime.utcfromtimestamp(at)
+    date = datetime.fromtimestamp(at, tz=timezone.utc)
     name = name.replace("{n}", str(nth))
     name = name.replace("{nth}", format_nth(nth))
     name = re.sub(r"{n\+(\d+)}", lambda m: str(nth + int(m.group(1))), name)
@@ -291,7 +291,7 @@ def format_description(
         desc = desc.replace("](next)", f"]({HOST + ARENA_URL.format(nxt)})")
     else:
         desc = re.sub(r"\[([^\n\[\]]+)\]\(next\)", r"\1", desc)
-    date = datetime.utcfromtimestamp(at)
+    date = datetime.fromtimestamp(at, tz=timezone.utc)
     desc = desc.replace("{month}", f"{date:%B}")
     desc = desc.replace("{n}", str(nth))
     desc = desc.replace("{nth}", format_nth(nth))

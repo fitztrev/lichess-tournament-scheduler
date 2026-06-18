@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 import sqlite3
 from time import time
-from typing import IO, Any, Dict, List, Optional, Set, Tuple
+from typing import IO, Any, Dict, List, Optional, Set, Tuple, cast
 
 from flask import Flask
 
@@ -27,8 +27,7 @@ class Db:
         if not self._query(f"SELECT * FROM {sqlite_schema}"):
             logger.info("No tables. Initializing database schema.")
             with self.db as trans:
-                f: IO[str]
-                with app.open_resource("schema.sql", mode="r") as f:
+                with cast(IO[str], app.open_resource("schema.sql", mode="r")) as f:
                     trans.executescript("BEGIN;" + f.read())
                 trans.execute(f"PRAGMA user_version = {VERSION}")
             return
@@ -48,7 +47,7 @@ class Db:
             version += 1
             logger.info(f"Migrating to {version}")
             with self.db as trans:
-                with app.open_resource(f"migrations/{version}.sql", mode="r") as f:
+                with cast(IO[str], app.open_resource(f"migrations/{version}.sql", mode="r")) as f:
                     trans.executescript("BEGIN;" + f.read())
                 trans.execute(f"PRAGMA user_version = {version}")
 

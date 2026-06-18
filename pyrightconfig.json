@@ -1,6 +1,5 @@
 {
   "typeCheckingMode": "strict",
   "reportImplicitStringConcatenation": "error",
-  "reportPropertyTypeMismatch": "error",
-  "reportShadowedImports": "error"
+  "reportPropertyTypeMismatch": "error"
 }
