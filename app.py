@@ -8,7 +8,7 @@ from collections import defaultdict
 from time import time
 from typing import Any, DefaultDict, Dict, List, cast
 
-from flask import Flask, abort, jsonify, request
+from flask import Flask, abort, jsonify, request, send_from_directory
 from flask.logging import default_handler  # pyright: ignore
 from flask_cors import CORS
 from werkzeug.exceptions import HTTPException
@@ -25,7 +25,7 @@ API_VERSION = "8"
 root = logging.getLogger()
 root.addHandler(default_handler)  # pyright: ignore
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="svelte/public", static_url_path="")
 app.config.from_pyfile("config.py")
 app.logger.setLevel(logging.INFO)
 
@@ -64,6 +64,11 @@ def error_bad_request(e: Any) -> Any:
     )
     response.content_type = "application/json"
     return response
+
+
+@app.route("/")
+def index() -> Any:
+    return send_from_directory(app.static_folder, "index.html")
 
 
 @app.route("/version")
