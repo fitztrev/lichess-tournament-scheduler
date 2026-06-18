@@ -1,5 +1,5 @@
 export const API_HOST = IS_PRODUCTION
-  ? 'https://tournament-scheduler.lichess.ovh'
+  ? 'https://tournament-scheduler.lichess.app'
   : 'http://localhost:5000';
 
 export const LICHESS_HOST = IS_PRODUCTION
