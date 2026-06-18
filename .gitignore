@@ -4,7 +4,6 @@ config.py
 *.sqlite
 node_modules
 svelte/public/build
-svelte/package-lock.json
 
 # Devenv
 .devenv*
