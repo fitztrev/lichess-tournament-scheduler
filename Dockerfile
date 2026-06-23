@@ -9,7 +9,7 @@ RUN npm run build
 FROM python:3.14-slim
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends build-essential && \
+    apt-get install -y --no-install-recommends build-essential vim && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
