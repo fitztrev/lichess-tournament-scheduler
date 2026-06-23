@@ -76,7 +76,7 @@ class SchedulerThread(Thread):
                     continue
 
                 db.insert_created(id, s.id, s.team, nxt)
-                logger.info(f"Created {name or s.name} as {id}")
+                logger.info(f"✅ Created {name or s.name} - {api.HOST}/tournament/{id}")
 
                 if s.msgMinutesBefore and s.msgMinutesBefore > 0 and s.msgTemplate:
                     db.insert_scheduled_msg(
