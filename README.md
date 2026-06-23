@@ -1,7 +1,7 @@
 ## Server setup
 
 1. `devenv shell`
-2. `cp config.example.py config.py` and fill out the values
+2. `cp config/config.example.py config/config.py` and fill out the values
 
 ## Frontend setup
 

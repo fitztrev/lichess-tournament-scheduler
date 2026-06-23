@@ -26,7 +26,7 @@ root = logging.getLogger()
 root.addHandler(default_handler)  # pyright: ignore
 
 app = Flask(__name__, static_folder="svelte/public", static_url_path="")
-app.config.from_pyfile("config.py")
+app.config.from_pyfile("config/config.py")
 app.logger.setLevel(logging.INFO)
 
 LICHESS_API_KEY = cast(str, app.config["LICHESS_API_KEY"])

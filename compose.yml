@@ -5,7 +5,7 @@ services:
       - DATABASE_PATH=/app/db/database.sqlite
     restart: unless-stopped
     volumes:
-      - /data/lichess-tournament-scheduler/config.py:/app/config.py:ro
+      - /data/lichess-tournament-scheduler/config:/app/config
       - /data/lichess-tournament-scheduler/db:/app/db
     networks:
       - frontend
