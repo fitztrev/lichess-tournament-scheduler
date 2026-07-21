@@ -1,6 +1,6 @@
 services:
   app:
-    image: ghcr.io/fitztrev/lichess-tournament-scheduler:docker
+    image: ghcr.io/benediktwerner/lichess-tournament-scheduler:docker
     environment:
       - DATABASE_PATH=/app/db/database.sqlite
     restart: unless-stopped
